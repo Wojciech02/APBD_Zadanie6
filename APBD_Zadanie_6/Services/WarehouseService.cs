@@ -80,13 +80,32 @@ namespace Zadanie5.Services
                 cmd.Parameters.Clear();
 
 
-                cmd.CommandText = "INSERT INTO Product_Warehouse VALUES ()"
+                cmd.CommandText = "INSERT INTO Product_Warehouse(IdWarehouse, IdProduct, Amount, Price, CreatedAt) " +
+                    $"VALUES(@IdWarehouse, @IdProduct, @Amount, @Amount*{price}, @CreatedAt)";
+                cmd.Parameters.AddWithValue();
+                cmd.Parameters.AddWithValue();
+                cmd.Parameters.AddWithValue();
+                cmd.Parameters.AddWithValue();
+                cmd.Parameters.AddWithValue();
+
+                int rowsInserted = await cmd.ExecuteNonQueryAsync();
+
+                if(rowsInserted < 1)throw new Exception();
+
+                await transaction.CommitAsync();
             }
             catch (Exception ex)
             {
                 await connection.RollbackAsync();
                 throw new Exception;
             }
+
+            cmd.Parameters.Clear();
+
+            cmd.CommandText = "SELECT TOP 1 IdProductWarehouse from Product_Warehouse ORDER BY DESC"
+
+            reader = cmd.ExecuteReaderAsync();
+            await reader.ReadeAsync();
 
 
             return 1;
