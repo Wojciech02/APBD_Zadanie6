@@ -82,11 +82,11 @@ namespace Zadanie5.Services
 
                 cmd.CommandText = "INSERT INTO Product_Warehouse(IdWarehouse, IdProduct, Amount, Price, CreatedAt) " +
                     $"VALUES(@IdWarehouse, @IdProduct, @Amount, @Amount*{price}, @CreatedAt)";
-                cmd.Parameters.AddWithValue();
-                cmd.Parameters.AddWithValue();
-                cmd.Parameters.AddWithValue();
-                cmd.Parameters.AddWithValue();
-                cmd.Parameters.AddWithValue();
+                cmd.Parameters.AddWithValue("@IdWarehouse", productWarehouse.IdWarehouse);
+                cmd.Parameters.AddWithValue("@IdProduct", productWarehouse.IdProduct);
+                cmd.Parameters.AddWithValue("@Amount", productWarehouse.Amount);
+                cmd.Parameters.AddWithValue("@Price", productWarehouse.Amount * price);
+                cmd.Parameters.AddWithValue("@CreatedAt", productWarehouse.CreatedAt);
 
                 int rowsInserted = await cmd.ExecuteNonQueryAsync();
 
